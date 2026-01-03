@@ -80,36 +80,28 @@ export default class Plugin {
     }
 
     private async markPostAsRead(postId: string): Promise<void> {
-        try {
-            const response = await fetch(
-                `/plugins/${this.pluginId}/api/read?post_id=${encodeURIComponent(postId)}`,
-                {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+        const response = await fetch(
+            `/plugins/${this.pluginId}/api/read?post_id=${encodeURIComponent(postId)}`,
+            {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-            );
+            },
+        );
 
-            if (response.ok) {
-                this.readCache.set(postId, true);
-            }
-        } catch (error) {
-            return;
+        if (response.ok) {
+            this.readCache.set(postId, true);
         }
     }
 
     private async displayReadIndicator(element: HTMLElement, postId: string): Promise<void> {
-        try {
-            // Check if already read on server
-            const isRead = await this.checkPostRead(postId);
+        // Check if already read on server
+        const isRead = await this.checkPostRead(postId);
 
-            if (isRead) {
-                this.addReadBadge(element);
-            }
-        } catch (error) {
-            return;
+        if (isRead) {
+            this.addReadBadge(element);
         }
     }
 
