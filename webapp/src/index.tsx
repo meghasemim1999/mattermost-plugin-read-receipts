@@ -2,12 +2,6 @@
 
 import manifest from 'manifest';
 
-import type { Store } from 'redux';
-
-import type { GlobalState } from '@mattermost/types/store';
-
-import type { PluginRegistry } from 'types/mattermost-webapp';
-
 interface ReadReceipt {
 	read: boolean;
 }
