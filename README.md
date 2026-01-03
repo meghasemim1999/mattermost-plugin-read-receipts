@@ -1,3 +1,5 @@
+# This Repo is not Ready Yet and is in development
+
 # Plugin Starter Template
 
 [![Build Status](https://github.com/mattermost/mattermost-plugin-starter-template/actions/workflows/ci.yml/badge.svg)](https://github.com/mattermost/mattermost-plugin-starter-template/actions/workflows/ci.yml)
