@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mattermost/mattermost-plugin-starter-template/server/command"
-	"github.com/mattermost/mattermost-plugin-starter-template/server/store/kvstore"
+	"github.com/meghasemim1999/mattermost-plugin-read-receipts/server/command"
+	"github.com/meghasemim1999/mattermost-plugin-read-receipts/server/store/kvstore"
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/plugin"
 	"github.com/mattermost/mattermost/server/public/pluginapi"

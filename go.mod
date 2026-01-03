@@ -1,4 +1,4 @@
-module github.com/mattermost/mattermost-plugin-starter-template
+module github.com/meghasemim1999/mattermost-plugin-read-receipts
 
 go 1.24.3
 
