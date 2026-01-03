@@ -42,7 +42,7 @@ export default class Plugin {
                     }
                 });
             },
-            { threshold: 0.5 }
+            {threshold: 0.5},
         );
 
         // Observe existing posts
@@ -62,7 +62,7 @@ export default class Plugin {
         if (postList) {
             mutationObserver.observe(postList, {
                 childList: true,
-                subtree: true
+                subtree: true,
             });
         }
     }
@@ -87,15 +87,16 @@ export default class Plugin {
                     method: 'POST',
                     credentials: 'same-origin',
                     headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+                        'Content-Type': 'application/json',
+                    },
+                },
             );
 
             if (response.ok) {
                 this.readCache.set(postId, true);
             }
         } catch (error) {
+            return;
         }
     }
 
@@ -108,6 +109,7 @@ export default class Plugin {
                 this.addReadBadge(element);
             }
         } catch (error) {
+            return;
         }
     }
 
@@ -123,9 +125,9 @@ export default class Plugin {
                 {
                     credentials: 'same-origin',
                     headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+                        'Content-Type': 'application/json',
+                    },
+                },
             );
 
             if (!response.ok) {
