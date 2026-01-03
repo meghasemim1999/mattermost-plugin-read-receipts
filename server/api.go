@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -15,7 +16,29 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 	// Middleware to require that the user is logged in
 	router.Use(p.MattermostAuthorizationRequired)
 
+	userID := r.Header.Get("Mattermost-User-ID")
+
 	apiRouter := router.PathPrefix("/api/v1").Subrouter()
+
+	switch {
+	case r.URL.Path == "/read" && r.Method == "POST":
+		postId := r.URL.Query().Get("post_id")
+		if err := p.markRead(postId, userID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	case r.URL.Path == "/isread" && r.Method == "GET":
+		postId := r.URL.Query().Get("post_id")
+		read, err := p.isRead(postId, userID)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		b, _ := json.Marshal(map[string]bool{"read": read})
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(b)
+	}
 
 	apiRouter.HandleFunc("/hello", p.HelloWorld).Methods(http.MethodGet)
 

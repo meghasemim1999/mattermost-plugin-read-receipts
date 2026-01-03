@@ -2,15 +2,16 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
-	"github.com/meghasemim1999/mattermost-plugin-read-receipts/server/command"
-	"github.com/meghasemim1999/mattermost-plugin-read-receipts/server/store/kvstore"
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/plugin"
 	"github.com/mattermost/mattermost/server/public/pluginapi"
 	"github.com/mattermost/mattermost/server/public/pluginapi/cluster"
+	"github.com/meghasemim1999/mattermost-plugin-read-receipts/server/command"
+	"github.com/meghasemim1999/mattermost-plugin-read-receipts/server/store/kvstore"
 	"github.com/pkg/errors"
 )
 
@@ -80,3 +81,13 @@ func (p *Plugin) ExecuteCommand(c *plugin.Context, args *model.CommandArgs) (*mo
 }
 
 // See https://developers.mattermost.com/extend/plugins/server/reference/
+
+func (p *Plugin) markRead(postId, userId string) *model.AppError {
+	ts := strconv.FormatInt(time.Now().Unix(), 10)
+	return p.API.KVSet("read:"+postId+":"+userId, []byte(ts))
+}
+
+func (p *Plugin) isRead(postId, userId string) (bool, *model.AppError) {
+	val, err := p.API.KVGet("read:" + postId + ":" + userId)
+	return val != nil, err
+}
